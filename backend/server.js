@@ -6,6 +6,10 @@ import Product from "./models/product/productSchema.js";
 
 const app = express();
 
+app.post("/api", function () {
+    console.log("api running"); 
+});
+
 app.listen(8080,function(){
     console.log("server listening on 8080");
 })
