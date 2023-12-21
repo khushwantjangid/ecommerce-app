@@ -14,7 +14,7 @@ const Order = sequelize.define(
     },
     customerName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     totalAmount: {
       type: DataTypes.DECIMAL(10, 2),

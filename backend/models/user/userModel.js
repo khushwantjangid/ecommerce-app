@@ -1,15 +1,23 @@
+import Utils from "../../utils/utils.js";
 import User from "./userSchema.js";
 
 export default class userModel{
 
-	static loginUser =  async function (data) {
+	static async loginUser(data) {
 		const userData = await User.findOne({email:data.email});
 		let isLogin = false;
 		let loginUserData = null;
 		if (userData) {
-			isLogin = helper.passwordCompare(data.password, userData.password);
+			isLogin = Utils.passwordCompare(data.password, userData.password);
 			if (isLogin) {
-				loginUserData = userData;
+				loginUserData = {};
+				loginUserData['id'] = userData.id?userData.id:null;
+				loginUserData['firstName'] = userData.firstName?userData.firstName:null;
+				loginUserData['lastName'] = userData.lastName?userData.lastName:null;
+				loginUserData['email'] = userData.email?userData.email:null;
+				loginUserData['phoneNumber'] = userData.phoneNumber?userData.phoneNumber:null;
+				loginUserData['createTime'] = userData.createTime?userData.createTime:null;
+				loginUserData['updateTime'] = userData.updateTime ? userData.updateTime : null;
 			}
 		} else {
 			throw new Error("Invalid User");
@@ -17,20 +25,24 @@ export default class userModel{
 
 		return loginUserData;
 	}
-	static addUser = async ({ name, age, password }) => {
+	static async addUser(data){
 		// Create a new user
-		const { userData, error } = await UserSchema.validate({
-			name: name,
-			age: age,
-			password: password,
-		});
-		if (error) {
-			throw new Error(error);
-		} else {
-			const jane = await User.create(userData);
+		let userData = null;
+		const user = await User.create(data);
+		if (userResp) {
+			userData = {};
+			userData['id'] = user.id?user.id:null;
+			userData['firstName'] = user.firstName?user.firstName:null;
+			userData['lastName'] = user.lastName?user.lastName:null;
+			userData['email'] = user.email?user.email:null;
+			userData['phoneNumber'] = user.phoneNumber?user.phoneNumber:null;
+			userData['createTime'] = user.createTime?user.createTime:null;
+			userData['updateTime'] = user.updateTime?user.updateTime:null;
 		}
+		return userData;
 	};
-	static getAllUser = async () => {
+
+	static async getAllUser(){
 		const { count, rows } = await User.findAndCountAll({
 			// where: {
 			// 	title: {
